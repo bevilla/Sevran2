@@ -1,0 +1,46 @@
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+
+    <h1>Choose your Jean Plancher!</h1>
+    <table>
+      <tr>
+	<td>
+	  <img src="{{ question.choiceA.image.url }}" />
+	</td>
+	<td>
+	  <img src="{{ question.choiceB.image.url }}" />
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <form action="{% url 'polls:vote' question.id 0 %}" method="post">
+	    {% csrf_token %}
+	    <input type="submit" value="Vote A" />
+	  </form>
+	</td>
+	<td>
+	  <form action="{% url 'polls:vote' question.id 1 %}" method="post">
+	    {% csrf_token %}
+	    <input type="submit" value="Vote B" />
+	  </form>
+	</td>
+      </tr>
+    </table>
+
+
+    <a href="{% url 'polls:index' %}">Next poll</a>
+
+    {% if display_result %}
+    <h2>Results!</h2>
+    <p>A: {{ question.voteA }} votes</p>
+    <p>B: {{ question.voteB }} votes</p>
+    {% endif %}
+
+  </body>
+</html>

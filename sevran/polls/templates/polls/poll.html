@@ -1,0 +1,70 @@
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sevran ShitpollPot</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <style>
+      img {
+      border: 1px solid #363636;
+      max-width: 400px;
+      max-height: 400px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+	<div class="col">
+	  <h1>Sevran ShitpollPot</h1>
+	</div>
+	<div class="col text-right mr-3">
+	  <button class="btn btn-primary" onclick="location.href='{% url 'polls:index' %}'">Next</button> <!-- {% url 'polls:index' %} -->
+	</div>
+      </div>
+
+      <div class="row mt-5">
+	<div class="col text-center">
+	  <form action="{% url 'polls:vote' question.id 0 %}" method="post">
+	    {% csrf_token %}
+	    <a href="#" onclick="this.parentNode.submit()"><img src="{{ question.choiceA.image.url }}" class="img-fluid"></a>
+	  </form>
+	</div>
+	<div class="col text-center">
+	  <form action="{% url 'polls:vote' question.id 1 %}" method="post">
+	    {% csrf_token %}
+	    <a href="#" onclick="this.parentNode.submit()"><img src="{{ question.choiceB.image.url }}" class="img-fluid"></a>
+	  </form>
+	</div>
+      </div>
+    </div>
+    <div class="container-fluid my-5">
+      <hr>
+    </div>
+    {% if display_result %}
+    <div class="container">
+      <h3>Results!</h3>
+      <div class="row">
+	<div class="col">
+	  <b>A: </b> {{ question.voteA }} vote(s) ({{ voteApercent }}%)
+	</div>
+	<div class="col">
+	  <b>B: </b> {{ question.voteB }} vote(s) ({{ voteBpercent }}%)
+	</div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="container">
+      <div class="row">
+	<div class="col text-center">
+	  <p>Merci à Grégoire Lodi pour le design.</p>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
